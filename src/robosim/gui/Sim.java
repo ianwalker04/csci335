@@ -3,6 +3,7 @@ package robosim.gui;
 import core.AIReflector;
 import robosim.core.Action;
 import robosim.core.Controller;
+import robosim.core.Polar;
 import robosim.core.SimObjMaker;
 
 import javax.swing.*;
@@ -14,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Comparator;
 import java.util.Optional;
 
 public class Sim extends JFrame {

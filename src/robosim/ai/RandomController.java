@@ -13,4 +13,5 @@ public class RandomController implements Controller {
 	public void control(Simulator sim) {
 		Action.values()[random.nextInt(Action.values().length)].applyTo(sim);
 	}
+
 }
