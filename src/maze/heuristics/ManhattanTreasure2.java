@@ -7,7 +7,7 @@ import java.util.Set;
 import java.util.function.ToIntFunction;
 
 // Monotonic
-// If there is treasure, then return the sum total of all the distances between each treasure and the goal.
+// If there is treasure, then return the sum total of all the distances between each treasure and the goal divided by the number of treasures.
 // If there is no treasure, then use ManhattanGoal.
 
 public class ManhattanTreasure2 implements ToIntFunction<MazeExplorer> {
