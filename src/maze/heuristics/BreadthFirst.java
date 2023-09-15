@@ -9,4 +9,5 @@ public class BreadthFirst implements ToIntFunction<MazeExplorer> {
     public int applyAsInt(MazeExplorer node) {
         return 0;
     }
+
 }
