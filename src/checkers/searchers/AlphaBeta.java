@@ -51,7 +51,7 @@ public class AlphaBeta extends CheckersSearcher {
                 if (newValues.getFirst() >= alpha) {
                     alpha = newValues.getFirst();
                 }
-                if (alpha >= beta) {
+                if (alpha > beta) {
                     break;
                 }
             }
