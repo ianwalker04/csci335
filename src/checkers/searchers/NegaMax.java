@@ -39,7 +39,7 @@ public class NegaMax extends CheckersSearcher {
             numNodes += 1;
             Checkerboard newBoard = board.duplicate();
             newBoard.move(move);
-            Duple<Integer, Move> newValues = NegaMaxFunction(newBoard, depthLimit - 1); // Negative?
+            Duple<Integer, Move> newValues = NegaMaxFunction(newBoard, depthLimit - 1);
             if (board.getCurrentPlayer() != newBoard.getCurrentPlayer()) {
                 newValues = new Duple<Integer, Move>(-newValues.getFirst(), newValues.getSecond());
             }
