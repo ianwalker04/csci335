@@ -20,7 +20,9 @@ public class ManhattanSum implements ToIntFunction<MazeExplorer> {
             return location.getManhattanDist(goal);
         } else {
             for (Pos position : treasure) {
-                total += position.getManhattanDist(location);
+                if (!node.getAllTreasureFound().contains(position)) {
+                    total += position.getManhattanDist(location);
+                }
             }
             return total;
         }

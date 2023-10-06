@@ -18,7 +18,9 @@ public class ManhattanTreasureGoal implements ToIntFunction<MazeExplorer> {
         Set<Pos> treasure = node.getAllTreasureFromMaze();
         if (!treasure.isEmpty()) {
             for (Pos position : treasure) {
-                total += position.getManhattanDist(location);
+                if (!node.getAllTreasureFound().contains(position)) {
+                    total += position.getManhattanDist(location);
+                }
             }
         }
         return total + location.getManhattanDist(goal);
