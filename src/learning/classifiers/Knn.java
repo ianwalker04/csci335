@@ -5,7 +5,6 @@ import learning.core.Classifier;
 import learning.core.Histogram;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.function.ToDoubleBiFunction;
 
@@ -22,13 +21,24 @@ public class Knn<V, L> implements Classifier<V, L> {
 
     @Override
     public L classify(V value) {
-        // TODO: Find the distance from value to each element of data. Use Histogram.getPluralityWinner()
-        //  to find the most popular label.
-        return null;
+        PriorityQueue<Duple<V, L>> queue = new PriorityQueue<>((d1, d2) ->
+                Double.compare(distance.applyAsDouble(value, d2.getFirst()),  distance.applyAsDouble(value, d1.getFirst())));
+        Histogram<L> hist = new Histogram<>();
+        for (Duple<V, L> datum : data) {
+            queue.add(datum);
+            if (distance.applyAsDouble(datum.getFirst(), value) <= distance.applyAsDouble(queue.peek().getFirst(), value)) {
+                queue.remove();
+                queue.add(datum);
+            }
+        }
+        for (Duple<V, L> pair : queue) {
+            hist.bump(pair.getSecond());
+        }
+        return hist.getPluralityWinner();
     }
 
     @Override
     public void train(ArrayList<Duple<V, L>> training) {
-        // TODO: Add all elements of training to data.
+        data.addAll(training);
     }
 }
