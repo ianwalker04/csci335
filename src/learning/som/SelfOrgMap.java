@@ -28,8 +28,8 @@ public class SelfOrgMap<V> {
     public SOMPoint bestFor(V example) {
         SOMPoint closestPoint = null;
         double smallestDist = Double.MAX_VALUE;
-        for (int x = 0; x < getMapWidth(); x++) {
-            for (int y = 0; y < getMapHeight(); y++) {
+        for (int y = 0; y < getMapHeight(); y++) {
+            for (int x = 0; x < getMapWidth(); x++) {
                 V point = getNode(x, y);
                 double currentDist = distance.applyAsDouble(point, example);
                 if (currentDist < smallestDist) {
@@ -48,7 +48,17 @@ public class SelfOrgMap<V> {
     //  3. Update each neighbor of the best matching node that is in the map,
     //     using a learning rate of 0.4.
     public void train(V example) {
-        // Your code here
+        SOMPoint bestNode = bestFor(example);
+        V bestMatching = getNode(bestNode.x(), bestNode.y());
+        V averageNode = averager.weightedAverage(example, bestMatching, 0.9);
+        map[bestNode.x()][bestNode.y()] = averageNode;
+        for (SOMPoint neighbor : bestNode.neighbors()) {
+            if (inMap(neighbor)) {
+                V neighborNode = getNode(neighbor.x(), neighbor.y());
+                V averageNeighbor = averager.weightedAverage(example, neighborNode, 0.4);
+                map[neighbor.x()][neighbor.y()] = averageNeighbor;
+            }
+        }
     }
 
     public V getNode(int x, int y) {
