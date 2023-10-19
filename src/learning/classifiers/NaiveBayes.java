@@ -36,7 +36,15 @@ public class NaiveBayes<V,L,F> implements Classifier<V,L> {
     //   * Increment the feature count for the item's label by the number of appearances of the feature.
     @Override
     public void train(ArrayList<Duple<V, L>> data) {
-        // Your code here
+        for (Duple<V, L> datum : data) {
+            priors.bump(datum.getSecond());
+            for (Duple<F, Integer> feature : allFeaturesFrom.apply(datum.getFirst())) {
+                if (featuresByLabel.get(datum.getSecond()) == null) {
+                    featuresByLabel.put(datum.getSecond(), new Histogram<>());
+                }
+                featuresByLabel.get(datum.getSecond()).bumpBy(feature.getFirst(), feature.getSecond());
+            }
+        }
     }
 
     // To classify:
@@ -47,7 +55,21 @@ public class NaiveBayes<V,L,F> implements Classifier<V,L> {
     // * Whichever label produces the highest product is the classification.
     @Override
     public L classify(V value) {
-        // Your code here.
-        return null;
+        L bestLabel = null;
+        double bestP = -Integer.MAX_VALUE;
+        double currentP;
+        for (L label : featuresByLabel.keySet()) {
+            currentP = priors.getPortionFor(label);
+            for (Duple<F, Integer> feature : allFeaturesFrom.apply(value)) {
+                double num = featuresByLabel.get(label).getCountFor(feature.getFirst()) + 1;
+                double denom = featuresByLabel.get(label).getTotalCounts() + 1;
+                currentP *= (num/denom);
+            }
+            if (currentP > bestP) {
+                bestP = currentP;
+                bestLabel = label;
+            }
+        }
+        return bestLabel;
     }
 }
