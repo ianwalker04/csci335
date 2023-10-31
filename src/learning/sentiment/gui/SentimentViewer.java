@@ -96,8 +96,11 @@ public class SentimentViewer extends JFrame {
             String line = s.nextLine();
             if (line.endsWith("0") || line.endsWith("1")) {
                 String[] partScore = line.split("\\t");
-                String sentiment = partScore[1].equals("0") ? "NEGATIVE" : "POSITIVE";
-                result.add(new Duple<>(new Sentence(partScore[0]).wordCounts(), sentiment));
+                String sentiment = partScore[0].equals("0") ? "NEGATIVE" : "POSITIVE";
+                // System.out.println(sentiment);
+                // System.out.println(partScore.length);
+                // System.out.println(partScore[1]);
+                result.add(new Duple<>(new Sentence(partScore[1]).wordCounts(), sentiment));
             }
         }
         return result;
